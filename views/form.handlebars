@@ -1,0 +1,441 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Брифінг</title>
+    <style>
+      h1 { text-align: center; padding: 0 0 20px; color: #333; } body {
+      font-family: Arial, sans-serif; margin: 0; padding: 0; } form { max-width:
+      800px; margin: 20px auto; padding: 20px; background-color: #f9f9f9;
+      border: 1px solid #ccc; border-radius: 5px; } fieldset { margin-bottom:
+      20px; padding: 20px; border: 1px solid #ccc; border-radius: 5px; } legend
+      { font-weight: bold; } label { display: block; margin-bottom: 10px; }
+      input[type="text"], input[type="tel"], input[type="email"], textarea {
+      width: calc(100% - 12px); padding: 10px; margin-bottom: 20px; border: 1px
+      solid #ccc; border-radius: 5px; resize: none; } textarea { height: 100px;
+      } #add_competitor, button[type="submit"] { padding: 10px 20px;
+      background-color: #007bff; color: #fff; border: none; border-radius: 5px;
+      cursor: pointer; } #add_competitor:hover, button[type="submit"]:hover {
+      background-color: #0056b3; } .candidate { border: 1px solid #ccc;
+      border-radius: 5px; padding: 10px; margin-bottom: 10px; }
+      .competitor_entry { position: relative; } .remove_competitor { color:
+      #999; line-height: 20px; font-size: 30px; cursor: pointer; position:
+      absolute; right: 10px; top: 0px; } .remove_competitor:hover { color: #555;
+      }
+      input[type="time"] { padding: 8px 10px;
+      font-size: 14px; border-radius: 5px; border: 1px solid #ccc; width: 200px;
+      cursor: pointer; } .checkbox-field { display: flex; align-items: center;
+      margin-bottom: 10px; } .checkbox-field label { margin-bottom: 0;
+      margin-left: 5px; } .checkbox-field:has(+ label) { margin-bottom: 20px; }
+    </style>
+  </head>
+  <body>
+    <form method="post" action="/submit">
+      <h1>Форма брифінгу для проекту</h1>
+
+      <fieldset>
+        <legend>1. Спосіб звʼязку</legend>
+        <label for="name">Ім'я:</label>
+        <input type="text" id="name" name="name" required />
+
+        <label for="email">Пошта:</label>
+        <input type="email" id="email" name="email" required />
+
+        <label for="phone">Телефон:</label>
+        <input type="tel" id="phone" name="phone" required />
+
+        <label for="convenient_time">Зручний час для зв'язку:</label>
+        <input
+          onclick="this.showPicker()"
+          type="time"
+          id="convenient_time"
+          name="convenient_time"
+          required
+        />
+      </fieldset>
+
+      <fieldset>
+        <legend>2. Загальні відомості</legend>
+        <label for="product_name">Назва продукту:</label>
+        <input type="text" id="product_name" name="product_name" required />
+
+        <label for="product_description">Суть продукту:</label>
+        <textarea
+          id="product_description"
+          name="product_description"
+          required
+        ></textarea>
+
+        <label>Цінності для клієнта:</label>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="customer_value1" name="customer_value1" />
+          <label for="customer_value1">Якісний продукт або послуга</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="customer_value2" name="customer_value2" />
+          <label for="customer_value2">Ефективність рішення проблем</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="customer_value3" name="customer_value3" />
+          <label for="customer_value3">Інноваційність продукту</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="customer_value4" name="customer_value4" />
+          <label for="customer_value4">Задоволення потреб клієнта</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="customer_value5" name="customer_value5" />
+          <label for="customer_value5">Професійне обслуговування</label>
+        </div>
+
+        <label>Вигода для клієнта:</label>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="customer_benefit1"
+            name="customer_benefit1"
+          />
+          <label for="customer_benefit1">Економія часу та ресурсів</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="customer_benefit2"
+            name="customer_benefit2"
+          />
+          <label for="customer_benefit2">Створення значних результатів</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="customer_benefit3"
+            name="customer_benefit3"
+          />
+          <label for="customer_benefit3">Підвищення продуктивності</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="customer_benefit4"
+            name="customer_benefit4"
+          />
+          <label for="customer_benefit4">Збільшення прибутку</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="customer_benefit5"
+            name="customer_benefit5"
+          />
+          <label for="customer_benefit5">Покращення якості життя</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>3. Цільова аудиторія</legend>
+        <label for="age">Вік:</label>
+        <input type="text" id="age" name="age" />
+
+        <label for="gender">Стать:</label>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="gender_male" name="gender_male" />
+          <label for="gender_male">Чоловіча</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="gender_female" name="gender_female" />
+          <label for="gender_female">Жіноча</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="gender_other" name="gender_other" />
+          <label for="gender_other">Інше</label>
+        </div>
+
+        <label for="education">Освіта:</label>
+        <input type="text" id="education" name="education" />
+
+        <label for="location">Місце проживання:</label>
+        <input type="text" id="location" name="location" />
+
+        <label for="marital_status">Сімейний стан:</label>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="marital_status_single"
+            name="marital_status_single"
+          />
+          <label for="marital_status_single">Одружений/заміжня</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="marital_status_married"
+            name="marital_status_married"
+          />
+          <label for="marital_status_married">Не одружений/не заміжня</label>
+        </div>
+
+        <label for="issues_needs">Проблеми та потреби:</label>
+        <textarea id="issues_needs" name="issues_needs" required></textarea>
+
+        <label>Ключові характеристики для успішної взаємодії:</label>
+        <textarea
+          id="key_characteristics"
+          name="key_characteristics"
+          required
+        ></textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend>4. Для чого потрібен сайт компанії</legend>
+        <label for="site_product_needs">Потреби сайту/продукту для клієнта:</label>
+        <textarea
+          id="site_product_needs"
+          name="site_product_needs"
+          required
+        ></textarea>
+
+        <label for="problems_resolved">Які проблеми вирішує:</label>
+        <textarea
+          id="problems_resolved"
+          name="problems_resolved"
+          required
+        ></textarea>
+      </fieldset>
+
+      <fieldset id="competitors_section">
+        <legend>5. Конкуренти</legend>
+        <div id="competitors_container">
+          <div class="competitor_entry">
+            <label for="competitor1">Основний конкурент:</label>
+            <input type="text" id="competitor1" name="competitor[]" required />
+            <label for="competitor_advantages1">Переваги конкурента:</label>
+            <textarea
+              id="competitor_advantages1"
+              name="competitor_advantages[]"
+              required
+            ></textarea>
+            <span class="remove_competitor">×</span>
+          </div>
+
+          <button type="button" id="add_competitor">Додати конкурента</button>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>6. Масштаб інтересів</legend>
+        <div class="checkbox-field">
+          <input type="checkbox" id="scale_global" name="scale_global" />
+          <label for="scale_global">Глобальний масштаб</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="scale_local" name="scale_local" />
+          <label for="scale_local">Локальний масштаб</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="scale_cultural" name="scale_cultural" />
+          <label for="scale_cultural">Культурний масштаб</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="scale_spatial" name="scale_spatial" />
+          <label for="scale_spatial">Просторовий масштаб</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input type="checkbox" id="scale_temporal" name="scale_temporal" />
+          <label for="scale_temporal">Часовий масштаб</label>
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend>7. Питання оцінок вартості</legend>
+        <label>Очікувана структура сайту/продукту:</label>
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="site_structure_option1"
+            name="site_structure_option1"
+          />
+          <label for="site_structure_option1">Мінімалістична структура</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="site_structure_option2"
+            name="site_structure_option2"
+          />
+          <label for="site_structure_option2">Корпоративна структура</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="site_structure_option3"
+            name="site_structure_option3"
+          />
+          <label for="site_structure_option3">Креативна структура</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="site_structure_option4"
+            name="site_structure_option4"
+          />
+          <label for="site_structure_option4">Динамічна структура</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="site_structure_option5"
+            name="site_structure_option5"
+          />
+          <label for="site_structure_option5">Паралакс-ефект структура</label>
+        </div>
+
+        <label>Очікувані вимоги до дизайну:</label>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="design_requirements_option1"
+            name="design_requirements_option1"
+          />
+          <label for="design_requirements_option1">Мінімалістичний дизайн</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="design_requirements_option2"
+            name="design_requirements_option2"
+          />
+          <label for="design_requirements_option2">Інтерактивний дизайн</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="design_requirements_option3"
+            name="design_requirements_option3"
+          />
+          <label for="design_requirements_option3">Футуристичний дизайн</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="design_requirements_option4"
+            name="design_requirements_option4"
+          />
+          <label for="design_requirements_option4">Традиційний дизайн</label>
+        </div>
+
+        <div class="checkbox-field">
+          <input
+            type="checkbox"
+            id="design_requirements_option5"
+            name="design_requirements_option5"
+          />
+          <label for="design_requirements_option5">Матеріальний дизайн</label>
+        </div>
+
+        <label for="desired_functionality">Бажані модулі або функціональність:</label>
+        <textarea
+          id="desired_functionality"
+          name="desired_functionality"
+          rows="4"
+        ></textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend>8. Додаткові питання для продуктивності</legend>
+        <label for="promotion_plan">Яким чином планується просування
+          продукту/сайту:</label>
+        <textarea id="promotion_plan" name="promotion_plan" rows="4"></textarea>
+
+        <label for="content_requirements">Очікувані вимоги до наповнення
+          контентом:</label>
+        <textarea
+          id="content_requirements"
+          name="content_requirements"
+          rows="4"
+        ></textarea>
+
+        <label for="liked_features">Що сподобалося у подібних продуктах/сайтах:</label>
+        <textarea id="liked_features" name="liked_features" rows="4"></textarea>
+
+        <label for="disliked_features">Що не сподобалося у подібних
+          продуктах/сайтах:</label>
+        <textarea
+          id="disliked_features"
+          name="disliked_features"
+          rows="4"
+        ></textarea>
+      </fieldset>
+
+      <fieldset>
+        <legend>9. Додаткова інформація</legend>
+        <label for="additional_info">Будь-яка інша інформація:</label>
+        <textarea
+          id="additional_info"
+          name="additional_info"
+          rows="4"
+        ></textarea>
+      </fieldset>
+
+      <button type="submit">Надіслати</button>
+    </form>
+
+    <script>
+      const addCompetitorButton = document.querySelector("#add_competitor");
+      const competitorsContainer = document.querySelector(
+      "#competitors_container" ); let competitorCount = 1;
+      addCompetitorButton.addEventListener("click", function () {
+      competitorCount++; const competitorEntry = document.createElement("div");
+      competitorEntry.classList.add("competitor_entry");
+      competitorEntry.innerHTML = ` <label
+      for="competitor${competitorCount}">Основний конкурент:</label> <input
+      type="text" id="competitor${competitorCount}" name="competitor[]"
+      required> <label for="competitor_advantages${competitorCount}">Переваги
+      конкурента:</label> <textarea id="competitor_advantages${competitorCount}"
+      name="competitor_advantages[]" required></textarea> <span
+      class="remove_competitor">×</span> `; document
+      .querySelector("#add_competitor") .insertAdjacentElement("beforebegin",
+      competitorEntry); }); competitorsContainer.addEventListener("click",
+      function (event) { console.log( event.target,
+      event.target.classList.contains("remove_competitor") ); if ( event.target
+      && event.target.classList.contains("remove_competitor") ) {
+      event.target.parentNode.remove(); } });
+
+      document.querySelectorAll("input[type='checkbox']").forEach(input=>{
+        input.addEventListener('change', function() {
+          if (this.checked) {
+            this.value = 1;
+          } else {
+            this.value = 0;
+          }
+        });
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,152 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Список замовлень</title>
+    <style>
+      table { width: 100%; border-collapse: collapse; } th, td { padding: 8px;
+      border-bottom: 1px solid #ddd; text-align: left; } th { background-color:
+      #f2f2f2; } .btn { padding: 6px 10px; border: none; cursor: pointer; }
+      .btn-view { background-color: #4CAF50; color: white; } .btn-edit {
+      background-color: #008CBA; color: white; } .btn-delete { background-color:
+      #f44336; color: white; } .btn-pdf { background-color: #f436e4; color:
+      white; } button,a{ text-decoration: none; padding: 10px 20px; }
+      .status-filter { margin-right: 10px; } th .sort-arrow { position:
+      absolute; right: 8px; top: 50%; transform: translateY(-50%); font-size:
+      12px; } body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+      .container { max-width: 1400px; margin: 20px auto; padding: 20px;
+      background-color: #f9f9f9; border: 1px solid #ccc; border-radius: 5px; }
+      #searchInput, .status-filter{height: 24px;} th{cursor: pointer;}
+      th{position:relative;} th:not(.orderer) .sort-arrow{ display: none; }
+      th.orderer.reverse .sort-arrow{ transform: rotate(180deg) }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div
+        style="display: flex; align-items: center; justify-content: space-between;"
+      >
+        <h1>Список замовлень</h1>
+
+        <div
+          class="search-container"
+          style="display: flex; align-items: center;"
+        >
+          <select
+            id="statusFilter"
+            class="status-filter"
+            onchange="handleViewedChange()"
+          >
+            <option value="all">Всі</option>
+            <option value="viewed">Переглянуті</option>
+            <option value="unviewed">Непереглянуті</option>
+          </select>
+          <input type="text" id="searchInput" placeholder="Пошук..." />
+          <button
+            type="button"
+            class="btn btn-search btn-edit"
+            style="margin-left: 10px; padding: 4px 10px;"
+            onclick="handleSearchSubmit()"
+          >Шукати</button>
+
+        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th onclick="handleThClicked('name')" id="name">Ім'я
+              <span class="sort-arrow">&uarr;</span></th>
+            <th onclick="handleThClicked('email')" id="email">Email
+              <span class="sort-arrow">&darr;</span></th>
+            <th onclick="handleThClicked('phone')" id="phone">Телефон
+              <span class="sort-arrow">&darr;</span></th>
+            <th onclick="handleThClicked('id')" id="id">ID форми
+              <span class="sort-arrow">&darr;</span></th>
+            <th
+              onclick="handleThClicked('convenient_time')"
+              id="convenient_time"
+            >Час зручний для спілкування
+              <span class="sort-arrow">&darr;</span></th>
+            <th onclick="handleThClicked('status')" id="status">Статус
+              <span class="sort-arrow">&darr;</span></th>
+            <th>Дії</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each forms}}
+            <tr>
+              <td>{{name}}</td>
+              <td>{{email}}</td>
+              <td>{{phone}}</td>
+              <td>{{id}}</td>
+              <td>{{convenient_time}}</td>
+              <td>
+                {{#if (eq status "viewed")}}
+                  Переглянуто
+                {{else}}
+                  Не переглянуто
+                {{/if}}
+              </td>
+              <td>
+                <a href="/form-view/{{id}}" class="btn btn-view">Перегляд</a>
+                <a href="/form-pdf/{{id}}" class="btn btn-pdf">PDF</a>
+                <a href="/form-edit/{{id}}" class="btn btn-edit">Зміна</a>
+                <a data-id="{{id}}" class="btn btn-delete">Видалення</a>
+              </td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+
+    <script>
+      const urlParams = new URLSearchParams(window.location.search); const
+      searchInput = document.getElementById('searchInput'); const statusFilter =
+      document.getElementById('statusFilter'); const searchParam =
+      urlParams.get('search'); const orderParam = urlParams.get('order'); const
+      orderTypeParam = urlParams.get('order-type'); const viewedParam =
+      urlParams.get('viewed'); searchInput.value = searchParam || '';
+      statusFilter.value = viewedParam || 'all'; if(orderParam){ const th =
+      document.querySelector(`th[id="${orderParam}"]`); if(th){
+      th.classList.add("orderer")
+      if(orderTypeParam=="asc"){th.classList.add("reverse") } } } function
+      rebuildPage ({search, viewed, order, orderType}){ let url = `/form-list`;
+      let has = false; if(search){ url+=`?search=${search}`; has = true; }
+      if(viewed){ url+=(has?"&":"?")+`viewed=${viewed}`; has = true; } if(order){
+      url+=(has?"&":"?")+`order=${order}`; has = true; } if(orderType){
+      url+=(has?"&":"?")+`order-type=${orderType}`; has = true; } window.location =
+      url; } function handleSearchSubmit(){
+      rebuildPage({search:searchInput.value, viewed:viewedParam,
+      order:orderParam, orderType:orderTypeParam}) } function
+      handleViewedChange() { rebuildPage({search:searchParam,
+      viewed:statusFilter.value, order:orderParam, orderType:orderTypeParam}) }
+      function handleThClicked (id){ let type = "desc"; let order = id;
+      if(orderParam==order && orderTypeParam == "asc"){ type = null; order =
+      null; }else{ if(orderParam==order){ type = "asc"; } }
+      rebuildPage({search:searchParam, viewed:viewedParam, order,
+      orderType:type}) }
+
+      document.querySelectorAll('.btn-delete').forEach(function(btn){
+        btn.addEventListener('click', function(event) {
+          event.preventDefault();
+
+          const id = this.getAttribute('data-id');
+
+          fetch(`/delete/${id}`, {
+            method: 'DELETE'
+          })
+          .then(function(response){
+            if (response.ok) {
+              window.location.reload();
+            } else {
+              console.error(`Помилка при видаленні запису`);
+            }
+          })
+          .catch(function(error){
+            console.error(`Помилка при видаленні запису:`, error);
+          });
+        });
+      });
+    </script>
+  </body>
+</html>
