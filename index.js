@@ -73,7 +73,7 @@ app.post("/login", (req, res) => {
       httpOnly: true,
       secure: true,
     });
-    res.send("Аутентифікація пройшла успішно!");
+    res.redirect("/form-list");
   } else {
     res.status(401).send("Неправильний email або пароль");
   }
@@ -155,12 +155,10 @@ app.post("/update", (req, res) => {
             console.error(err);
             return res.status(500).send(err.message);
           }
-          console.log("Конкуренти успішно оновлені в базі даних");
-          res.send("Дані успішно оновлені в базі даних!");
+          res.redirect("/form-list");
         });
       } else {
-        console.log("Дані успішно оновлені в базі даних");
-        res.send("Дані успішно оновлені в базі даних!");
+        res.redirect("/form-list");
       }
     });
   });
